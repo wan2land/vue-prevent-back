@@ -1,4 +1,9 @@
 
+function isString(value) {
+    const type = typeof value
+    return type == 'string' || (type == 'object' && value instanceof String)
+}
+
 function createUnloadHandler(trigger, message) {
     return function leaving(e) {
         if (trigger()) {
@@ -13,6 +18,8 @@ function createRouteLeaveHandler(trigger, message) {
     return function beforeRouteLeave(to, from, next) {
         if (!trigger() || trigger() && confirm(message)) {
             next();
+        } else {
+            next(false);
         }
     }
 }
@@ -26,23 +33,38 @@ function getInputElements(el) {
 }
 
 export default {
-    bind(el, binding, vnode) {
-        var {
-            value: message = 'You have unsaved work. Are you sure you want to leave this page?',
-            modifiers: {
-                "vue-router-disable": vueRouterDisabled,
-                "beforeunload-disable": beforeunloadDisabled,
-            },
-        } = binding;
-        var isModified = false;
-        var trigger = () => isModified;
-        var inputs = getInputElements(el);
-        
+    bind(el, {value, modifiers}, vnode) {
+        var vueRouterDisabled = modifiers['vue-router-disable'];
+        var beforeunloadDisabled = modifiers['beforeunload-disable'];
+        var testerOnlyEnabled = modifiers['tester-only'];
 
+        var message = 'You have unsaved work. Are you sure you want to leave this page?';
+        var tester = () => true; // default tester always return true :-)
+
+        if (isString(value)) {
+            message = value;
+        } else {
+            value = value || {};
+            if (value.message) {
+                message = value.message;
+            }
+            if (value.tester) {
+                tester = value.tester;
+            }
+        }
+
+        var isModified = false;
+        var trigger = () => (isModified || !tester());
+        var inputs = [];
+        
         function changeHandle() {
             isModified = true;
         }
-        inputs.forEach(input => input.addEventListener('input', changeHandle));
+
+        if (!testerOnlyEnabled) {
+            inputs = getInputElements(el);
+            inputs.forEach(input => input.addEventListener('input', changeHandle));
+        }
 
         // for refresh, location.href
         if (!beforeunloadDisabled) {
@@ -61,7 +83,9 @@ export default {
 
         // unbind method
         vnode._vuePreventBackUnbind = function () {
-            inputs.forEach(input => input.removeEventListener('input', changeHandle));
+            if (!testerOnlyEnabled) {
+                inputs.forEach(input => input.removeEventListener('input', changeHandle));
+            }
 
             // for refresh, location.href
             if (!beforeunloadDisabled) {

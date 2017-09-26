@@ -3,11 +3,11 @@ var webpack = require('webpack')
 var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './example.js',
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, './../example'),
     filename: 'index.js',
-    library:'VuePreventBack',
+    library:'VuePreventPicker',
     libraryTarget: 'umd'
   },
   module: {
@@ -39,7 +39,8 @@ module.exports = {
     ]
   },
   externals: {
-    vue: 'vue'
+    vue: 'Vue',
+    "vue-prevent-back": 'VuePreventBack',
   },
   resolve: {
     alias: {

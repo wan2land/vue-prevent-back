@@ -1,5 +1,5 @@
 <template>
     <div>
-        Other Page!
+        <h1>Vue Prevent Back :-)</h1>
     </div>
 </template>
