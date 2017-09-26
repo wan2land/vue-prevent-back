@@ -24,14 +24,6 @@ function createRouteLeaveHandler(trigger, message) {
     }
 }
 
-function getInputElements(el) {
-    return [].concat(
-        [].slice.call(el.getElementsByTagName('input')),
-        [].slice.call(el.getElementsByTagName('select')),
-        [].slice.call(el.getElementsByTagName('textarea'))
-    )
-}
-
 export default {
     bind(el, {value, modifiers}, vnode) {
         var vueRouterDisabled = modifiers['vue-router-disable'];
@@ -62,8 +54,7 @@ export default {
         }
 
         if (!testerOnlyEnabled) {
-            inputs = getInputElements(el);
-            inputs.forEach(input => input.addEventListener('input', changeHandle));
+            el.addEventListener('input', changeHandle);
         }
 
         // for refresh, location.href
@@ -84,7 +75,7 @@ export default {
         // unbind method
         vnode._vuePreventBackUnbind = function () {
             if (!testerOnlyEnabled) {
-                inputs.forEach(input => input.removeEventListener('input', changeHandle));
+                el.removeEventListener('input', changeHandle);
             }
 
             // for refresh, location.href
