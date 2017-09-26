@@ -6,10 +6,11 @@ function isString(value) {
 
 function createUnloadHandler(trigger, message) {
     return function leaving(e) {
+        e = e || window.event;
         if (trigger()) {
             var confirmationMessage = message;
             e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34+
-            return confirmationMessage; // Gecko, WebKit, Chrome <34    
+            return confirmationMessage; // Gecko, WebKit, Chrome <34
         }
     }
 }
