@@ -56,16 +56,14 @@ Vue.use(VuePreventBack, options)
  - [Demo](http://wan2land.github.io/vue-prevent-back/)
  - [Sources](./example-src)
 
-### Install Options
+## Install Options
 
 Option  |Type  |Default         |Description
 --------|------|----------------|-----
 name    |String|`'prevent-back'` |change directive name.
 message |String|`'You have unsaved work. Are you sure you want to leave this page?'` |change default message.
 
-#### name
-
-**Example.**
+**`name` Example.**
 
 ```js
 import VuePreventBack from 'vue-prevent-back'
@@ -81,9 +79,7 @@ Now, you can use directive below.
 <form v-my-prevent-back></form>
 ```
 
-#### message
-
-**Example.**
+**`message` Example.**
 
 ```js
 import VuePreventBack from 'vue-prevent-back'
@@ -93,25 +89,21 @@ Vue.use(VuePreventBack, {
 })
 ```
 
-### Value
+## Value
 
 Key     |Type    |Default         |Description
 --------|--------|----------------|-----
 message |String  |install options's message |change confirm message.
 tester  |Function|`() => true`|checking that form is changing.
 
-#### message
-
-**Example.**
+**`message` Example.**
 
 ```html
 <form v-prevent-back="'Are you Okay?'"></form>
 <form v-prevent-back="{message: 'Are you Okay?'}"></form>
 ```
 
-#### tester
-
-**Example.**
+**`tester` Example.**
 
 ```html
 <form v-prevent-back="{tester: () => !isChange)}">
@@ -129,7 +121,7 @@ export default {
 };
 ```
 
-### Modifier
+## Modifier
 
 Key     |Description
 --------|-------------
