@@ -98,8 +98,11 @@ export function createDirective(options) {
             };
         },
         unbind(el, binding, vnode) {
-            vnode._vuePreventBackUnbind();
-            delete vnode._vuePreventBackUnbind;
+            // just hotfix source. it need to be fixed. 
+            if (vnode._vuePreventBackUnbind) {
+                vnode._vuePreventBackUnbind();
+                delete vnode._vuePreventBackUnbind;    
+            }
         },
     };
 }
