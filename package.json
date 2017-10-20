@@ -1,6 +1,7 @@
 {
   "name": "vue-prevent-back",
   "version": "0.0.4",
+  "title": "Vue Prevent Back",
   "description": "prevent back directive for Vue.js.",
   "author": "Changwan Jun",
   "license": "MIT",
@@ -9,9 +10,9 @@
     "url": "git://github.com/wan2land/vue-prevent-back.git"
   },
   "scripts": {
-    "dev": "vue build build/dev.js --config build/vue.config.js",
-    "build:production": "cross-env NODE_ENV=production webpack --progress --hide-modules --config ./build/webpack.config.js",
-    "build:example": "cross-env NODE_ENV=production webpack --progress --hide-modules --config ./build/webpack.example.js",
+    "dev": "poi example-src/entry.js --config build/poi.config.js",
+    "build:production": "rimraf dist/* && cross-env NODE_ENV=production webpack --progress --hide-modules --config ./build/webpack.prod.conf.js",
+    "build:example": "rimraf example/* && cross-env NODE_ENV=production webpack --progress --hide-modules --config ./build/webpack.example.conf.js",
     "build": "npm run build:production && npm run build:example"
   },
   "main": "dist/index.js",
@@ -24,7 +25,10 @@
     "cross-env": "^3.0.0",
     "css-loader": "^0.25.0",
     "file-loader": "^0.9.0",
+    "html-webpack-plugin": "^2.30.1",
     "node-sass": "^4.5.0",
+    "poi": "^9.4.0",
+    "rimraf": "^2.6.2",
     "sass-loader": "^5.0.1",
     "uglifyjs-webpack-plugin": "^1",
     "vue": "^2.4.4",

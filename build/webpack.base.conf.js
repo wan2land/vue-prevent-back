@@ -1,15 +1,13 @@
+
 var path = require('path')
 var webpack = require('webpack')
 var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
+}
+
 module.exports = {
-  entry: path.resolve(__dirname, '../src/index.js'),
-  output: {
-    path: path.resolve(__dirname, '../dist'),
-    filename: 'index.js',
-    library:'VuePreventBack',
-    libraryTarget: 'umd'
-  },
   module: {
     rules: [
       {
@@ -38,9 +36,6 @@ module.exports = {
       },
     ]
   },
-  externals: {
-    vue: 'vue'
-  },
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js'
@@ -50,7 +45,6 @@ module.exports = {
 }
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports.devtool = '#source-map'
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       'process.env': {
@@ -65,6 +59,6 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
-    })
-  ])
+    }),
+  ]);
 }

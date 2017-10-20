@@ -2,12 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VuePreventBack from 'vue-prevent-back'
 
-import App from '../example-src/App.vue'
-import routes from '../example-src/routes';
+import App from './App.vue'
+import routes from './routes';
 
-// example using from global! :-)
-// Vue.use(VueRouter)
-// Vue.use(VuePreventBack)
+Vue.use(VueRouter)
+Vue.use(VuePreventBack)
 
 const router = new VueRouter({
     mode: 'hash',

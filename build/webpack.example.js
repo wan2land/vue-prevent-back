@@ -1,71 +1,30 @@
-var path = require('path')
-var webpack = require('webpack')
-var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
-module.exports = {
-  entry: path.resolve(__dirname, './example.js'),
+var path = require('path')
+var merge = require('webpack-merge');
+var htmlWebpackPlugin = require('html-webpack-plugin');
+
+var baseConfig = require('./webpack.base.conf');
+
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
+}
+
+module.exports = merge(baseConfig, {
+  entry: resolve('example-src/entry.js'),
   output: {
-    path: path.resolve(__dirname, './../example'),
+    path: resolve('example'),
     filename: 'index.js',
-    library:'VuePreventPicker',
-    libraryTarget: 'umd'
-  },
-  module: {
-    rules: [
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-          scss: 'vue-style-loader!css-loader!sass-loader',
-          sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
-          loaders: {
-            js: {
-               loader: 'babel-loader',
-               options: {
-                   presets: ['es2015-ie'],
-               }
-            },
-          }
-        },
-      },
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/,
-        query: {
-          presets: ['es2015-ie'],  
-        },
-      },
-    ]
-  },
-  externals: {
-    vue: 'Vue',
-    "vue-prevent-back": 'VuePreventBack',
   },
   resolve: {
     alias: {
-      'vue$': 'vue/dist/vue.esm.js'
+      'vue-prevent-back': resolve('src'),
     }
   },
-  devtool: '#source-map',
-}
+});
 
-if (process.env.NODE_ENV === 'production') {
-  module.exports.devtool = '#source-map'
-  module.exports.plugins = (module.exports.plugins || []).concat([
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    }),
-    new UglifyJSPlugin({
-      uglifyOptions: {
-        ie8: true,
-        ecma: 5,
-      }
-    }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true
-    })
-  ])
-}
+module.exports.plugins = (module.exports.plugins || []).concat([
+  new htmlWebpackPlugin({
+    template: resolve('build/template.html'),
+    filename: resolve('index.html'),
+  }),
+]);
