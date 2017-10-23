@@ -52,7 +52,7 @@ export function createDirective(options) {
             var trigger = () => (isModified || !tester());
             var inputs = [];
             
-            function changeHandle() {
+            function changeHandle() {e
                 isModified = true;
             }
     
@@ -76,11 +76,11 @@ export function createDirective(options) {
             }
     
             // unbind method
-            vnode._vuePreventBackUnbind = function () {
+            el._vuePreventBackUnbind = function () {
                 if (!testerOnlyEnabled) {
                     el.removeEventListener('input', changeHandle);
                 }
-    
+                    
                 // for refresh, location.href
                 if (!beforeunloadDisabled) {
                     window.removeEventListener('beforeunload', unloadHandler);                
@@ -98,11 +98,8 @@ export function createDirective(options) {
             };
         },
         unbind(el, binding, vnode) {
-            // just hotfix source. it need to be fixed. 
-            if (vnode._vuePreventBackUnbind) {
-                vnode._vuePreventBackUnbind();
-                delete vnode._vuePreventBackUnbind;    
-            }
+            el._vuePreventBackUnbind();
+            delete el._vuePreventBackUnbind;    
         },
     };
 }
