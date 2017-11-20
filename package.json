@@ -1,6 +1,6 @@
 {
   "name": "vue-prevent-back",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "title": "Vue Prevent Back",
   "description": "prevent back directive for Vue.js.",
   "author": "Changwan Jun",
