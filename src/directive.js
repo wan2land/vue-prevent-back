@@ -52,7 +52,7 @@ export function createDirective(options) {
             var trigger = () => (isModified || !tester());
             var inputs = [];
             
-            function changeHandle() {e
+            function changeHandle() {
                 isModified = true;
             }
     
@@ -69,8 +69,11 @@ export function createDirective(options) {
             // for vue router
             if (!vueRouterDisabled) {
                 var routeLeaveHandler = createRouteLeaveHandler(trigger, message);
+
                 if (!vnode.context.$options['beforeRouteLeave']) {
-                    vnode.context.$options.__proto__['beforeRouteLeave'] = []; // using __proto__
+                    // ref. https://github.com/vuejs/vue/blob/dev/src/core/instance/init.js
+                    // vnode.context.$options.__proto__ == vnode.context.constructor.options
+                    vnode.context.constructor.options['beforeRouteLeave'] = [];
                 }
                 vnode.context.$options['beforeRouteLeave'].push(routeLeaveHandler);
             }
